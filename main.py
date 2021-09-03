@@ -42,14 +42,13 @@ over = True
 ############################################
 
 class Player():
-    def __init__(self, width = 20, height = 100, x = 580, y = 400, vel = 20, max = 700, min = 0):
+    def __init__(self, width = 20, height = 100, x = 580, y = 400, vel = 20):
         self.width = width
         self.height = height
         self.x = x
         self.y = y
         self.vel = vel
-        self.max = max
-        self.min = min
+
 
     def draw_rect1(self):
         player1 = pygame.Rect(self.x, self.y, self.width, self.height)
@@ -67,12 +66,21 @@ class Player():
 
 
 
-
-
-
 player1 = Player()
 player2 = Player(20, 100, 0, 400, 20)
 
+
+class ball():
+    def __init__(self, x = 200, y = 300, width = 20, height = 20, vel = 5, max_h = 790, min_h = 10, max_w = 610, min_w = -10):
+        self.x = x
+        self.y = y
+        self.width = width
+        self.height = height
+        self.vel = vel
+        self.max_h = max_h
+        self.min_h = min_h
+        self.max_w = max_w
+        self.min_w = min_h
 
 
 while True:
@@ -85,42 +93,37 @@ while True:
             sys.exit()
 ###########################################
 # PLAYER 1 COLLISION
-    if player1.y >= 700:
-        player1_downcollide = True
-    else:
-        player1_downcollide = False
-    if player1.y <= 0:
-        player1_upcollide = True
-    else:
-        player1_upcollide = False
+    if player1.y >= 800:
+        player1.y = -90
+
+    if player1.y <= -100:
+        player1.y = 800
+
 
 # PLAYER 2 COLLISION
-    if player2.y >= 700:
-        player2_downcollide = True
-    else:
-        player2_downcollide = False
-    if player2.y <= 0:
-        player2_upcollide = True
-    else:
-        player2_upcollide = False
+    if player2.y >= 800:
+        player2.y = -90
+
+    if player2.y <= -100:
+        player2.y = 800
 
 
 #########################################
     # PLAYER1 MOVEMENT
-    if player1_downcollide == False:
-        if keys[pygame.K_DOWN]:
-            player1.move_down()
-    if player1_upcollide == False:
-        if keys[pygame.K_UP]:
-            player1.move_up()
+
+    if keys[pygame.K_DOWN]:
+        player1.move_down()
+
+    if keys[pygame.K_UP]:
+        player1.move_up()
 
     # PLAYER2 MOVEMENT
-    if player2_downcollide == False:
-        if keys[pygame.K_s]:
-            player2.move_down()
-    if player2_upcollide == False:
-        if keys[pygame.K_w]:
-            player2.move_up()
+
+    if keys[pygame.K_s]:
+        player2.move_down()
+
+    if keys[pygame.K_w]:
+        player2.move_up()
  ########################################
 
     # if ball_x >= 585:
