@@ -11,10 +11,6 @@ screen = pygame.display.set_mode((screen_w, screen_y))
 
 pygame.display.set_caption('Pong')
 
-# image = pygame.image.load('Pong_ball.png')
-#
-# ball = screen.blit(image, (x, y))
-
 counter = 0
 
 player1_downcollide = False
@@ -34,7 +30,8 @@ vert_vel = 5
 over = False
 
 direction = ('Right','Left')
-random_direction = [random.randint(0, 1)]
+numbers = [-1,1]
+random_direction = random.choice(numbers)
 
 
 ############################################
@@ -45,7 +42,7 @@ random_direction = [random.randint(0, 1)]
 ############################################
 
 class Player():
-    def __init__(self, width = 20, height = 100, x = 580, y = 400, vel = 20):
+    def __init__(self, width = 20, height = 100, x = 580, y = 400, vel = 10):
         self.width = width
         self.height = height
         self.x = x
@@ -71,35 +68,39 @@ class Player():
 
 
 player1 = Player()
-player2 = Player(20, 100, 0, 400, 20)
+player2 = Player(20, 100, 0, 400, 10)
 
 
 class ball():
-    def __init__(self, random, x = 200, y = 300, radius = 10, vel = 5, max_h = 790, min_h = 10, max_w = 610, min_w = -10 ):
+    def __init__(self, random, x = 200, y = 300, radius = 10, h_vel = 5, v_vel = 5, max_h = 790, min_h = 10, start = 0):
         self.x = x
         self.y = y
         self.radius = radius
-        self.vel = vel
+        self.h_vel = h_vel
+        self.v_vel = v_vel
         self.max_h = max_h
         self.min_h = min_h
-        self.max_w = max_w
-        self.min_w = min_w
         self.random = random
+        self.start = start
+
+
 
     def draw_circle(self):
-        self.x += self.vel
-        self.y += self.vel
+        self.start += 1
+        if self.start == 1:
+            self.h_vel *= self.random
+        self.x += self.h_vel
+        self.y += self.v_vel
         pygame.draw.circle(screen, (255, 255, 255), (self.x, self.y), self.radius)
 
 ball1 = ball(random_direction)
 
-if keys[pygame.K_1] and over == True:
-    over = False
 
 
-while not over:
-    if over == True:
-        counter = 0
+ball_count = 0
+
+while True:
+
     keys = pygame.key.get_pressed()
 
     for event in pygame.event.get():
@@ -143,19 +144,50 @@ while not over:
 
 
 
-    if ball1.x >= 800:
-        over = True
-    if ball1.x <= 0:
-        over = True
+    if ball1.x >= 800 or ball1.x <= -10:
+        ball1.x = 200
+        ball1.y = 300
+        ball1.h_vel *= switch
+        ball1.h_vel = 5
+        ball1.v_vel = random.randint(1, 5)
+
 
     if ball1.y <= 15:
-        vert_vel *= switch
+        ball1.v_vel *= switch
     if ball1.y >= 785:
-        vert_vel *= switch
+        ball1.v_vel *= switch
+
+#########################################
+#BALL COLLISION WITH PLAYER
+    if ball1.x == player1.x and ball1.y >= player1.y and ball1.y <= (player1.y + 100):
+        ball1.h_vel *= switch
+        if keys[pygame.K_DOWN]:
+            if ball1.v_vel > 0:
+                ball1.v_vel *= switch
+            ball1.v_vel -= .5
+        if keys[pygame.K_UP]:
+            if ball1.v_vel < 0:
+                ball1.v_vel *= switch
+            ball1.v_vel += .5
+
+
+
+
+    if ball1.x == player2.x + 30 and ball1.y >= player2.y and ball1.y <= (player2.y + 100):
+        ball1.h_vel *= switch
+        if keys[pygame.K_s]:
+            if ball1.v_vel > 0:
+                ball1.v_vel *= switch
+            ball1.v_vel -= .5
+        if keys[pygame.K_w]:
+            if ball1.v_vel < 0:
+                ball1.v_vel *= switch
+            ball1.v_vel += .5
+
+
 
 #########################################
 
-    # if ball.x - player1.x
 
     screen.fill((0, 0, 0))
 
