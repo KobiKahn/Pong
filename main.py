@@ -36,7 +36,7 @@ random_direction = random.choice(numbers)
 
 
 class Player():
-    def __init__(self, width = 5, height = 100, x = 595, y = 400, vel = 10):
+    def __init__(self, width = 10, height = 100, x = 590, y = 400, vel = 10):
         self.width = width
         self.height = height
         self.x = x
@@ -62,7 +62,7 @@ class Player():
 
 
 player1 = Player()
-player2 = Player(5, 100, 0, 400, 10)
+player2 = Player(10, 100, 0, 400, 10)
 
 
 class ball():
@@ -80,13 +80,10 @@ class ball():
 
 
     def draw_circle(self):
-        if over == True:
-            self.start += 1
-        if self.start == 1:
-            self.h_vel *= self.random
+        pygame.draw.circle(screen, (255, 255, 255), (self.x, self.y), self.radius)
         self.x += self.h_vel
         self.y += self.v_vel
-        pygame.draw.circle(screen, (255, 255, 255), (self.x, self.y), self.radius)
+
 
 ball1 = ball(random_direction)
 
@@ -104,7 +101,7 @@ ending = myfont.render('', False, (255, 255, 255))
 over = False
 
 
-num_sequence = [-7, -6, -5, -4, -3, 3, 4, 5, 6, 7]
+num_sequence = [ 5, -5, 6, -6]
 while True:
 
     keys = pygame.key.get_pressed()
@@ -150,7 +147,7 @@ while True:
 
 
 
-    if ball1.x >= 810 or ball1.x <= -20:
+    if ball1.x >= 825 or ball1.x <= -25:
         counter = 0
         if ball1.x >= 800:
             score2 += 1
@@ -166,19 +163,18 @@ while True:
             over = True
         ball1.x = 200
         ball1.y = 300
-        ball1.h_vel = 5
         ball1.v_vel = random.randint(3, 6)
 
 
-    if ball1.y <= 15:
+    if ball1.y <= 10:
         ball1.v_vel *= switch
-    if ball1.y >= 785:
+    if ball1.y >= 790:
         ball1.v_vel *= switch
 
 
 #########################################
 #BALL COLLISION WITH PLAYER
-    if ball1.x == player1.x and  ball1.y >= player1.y and ball1.y <= (player1.y + 100):
+    if ball1.x == 580 and ball1.y >= player1.y and ball1.y <= (player1.y + 100):
         ball1.h_vel *= switch
         if keys[pygame.K_DOWN]:
             if ball1.v_vel > 0:
@@ -193,7 +189,7 @@ while True:
 
 
 
-    if ball1.x == player2.x and ball1.y >= player2.y and ball1.y <= (player2.y + 100):
+    if ball1.x == 20 and ball1.y >= player2.y and (ball1.y + 10) <= (player2.y + 110):
         ball1.h_vel *= switch
         if keys[pygame.K_s]:
             if ball1.v_vel > 0:
