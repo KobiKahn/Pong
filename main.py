@@ -30,13 +30,13 @@ vert_vel = 5
 myfont = pygame.font.SysFont('ccoverbyteoffregular.otf', 100)
 
 
-direction = ('Right','Left')
-numbers = [-1,1]
+direction = ('Right', 'Left')
+numbers = [-1, 1]
 random_direction = random.choice(numbers)
 
 
 class Player():
-    def __init__(self, width = 10, height = 100, x = 590, y = 400, vel = 10):
+    def __init__(self, width = 10, height = 100, x = 590, y = 400, vel = 7):
         self.width = width
         self.height = height
         self.x = x
@@ -62,20 +62,17 @@ class Player():
 
 
 player1 = Player()
-player2 = Player(10, 100, 0, 400, 10)
+player2 = Player(10, 100, 0, 400, 7)
 
 
 class ball():
-    def __init__(self, random, x = 200, y = 300, radius = 10, h_vel = 5, v_vel = 5, max_h = 790, min_h = 10, start = 0):
+    def __init__(self, random, x = 200, y = 300, radius = 10, h_vel = 5, v_vel = 5):
         self.x = x
         self.y = y
         self.radius = radius
         self.h_vel = h_vel
         self.v_vel = v_vel
-        self.max_h = max_h
-        self.min_h = min_h
         self.random = random
-        self.start = start
 
 
 
@@ -101,7 +98,7 @@ ending = myfont.render('', False, (255, 255, 255))
 over = False
 
 
-num_sequence = [ 5, -5, 6, -6]
+num_sequence = [5, -5, 6, -6]
 while True:
 
     keys = pygame.key.get_pressed()
@@ -174,7 +171,7 @@ while True:
 
 #########################################
 #BALL COLLISION WITH PLAYER
-    if ball1.x == 580 and ball1.y >= player1.y and ball1.y <= (player1.y + 100):
+    if ball1.x == 580 and (ball1.y + ball1.radius) >= player1.y and (ball1.y + ball1.radius) <= (player1.y + 110):
         ball1.h_vel *= switch
         if keys[pygame.K_DOWN]:
             if ball1.v_vel > 0:
@@ -189,7 +186,7 @@ while True:
 
 
 
-    if ball1.x == 20 and ball1.y >= player2.y and (ball1.y + 10) <= (player2.y + 110):
+    if ball1.x == 20 and (ball1.y + ball1.radius) >= player2.y and (ball1.y + ball1.radius) <= (player2.y + 110):
         ball1.h_vel *= switch
         if keys[pygame.K_s]:
             if ball1.v_vel > 0:
