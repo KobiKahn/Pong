@@ -97,7 +97,6 @@ ending = myfont.render('', False, (255, 255, 255))
 
 over = False
 
-
 num_sequence = [5, -5, 6, -6]
 while True:
 
@@ -171,7 +170,7 @@ while True:
 
 #########################################
 #BALL COLLISION WITH PLAYER
-    if ball1.x == 580 and (ball1.y + ball1.radius) >= player1.y and (ball1.y + ball1.radius) <= (player1.y + 110):
+    if ball1.x == 585 and (ball1.y + ball1.radius) >= player1.y and (ball1.y + ball1.radius) <= (player1.y + 110):
         ball1.h_vel *= switch
         if keys[pygame.K_DOWN]:
             if ball1.v_vel > 0:
